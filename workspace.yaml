@@ -1,0 +1,13 @@
+load_from:
+  - python_file:
+      relative_path: repositories/currencies_repository.py
+      # If not using Docker, reference your local machine's Python interpreter:
+      # executable_path: /home/piotr/envs/dagster_dev/bin/python
+      # executable_path: ~/dagster_cloud_training/dagster-sklearn/venv-sklearn/bin/python
+      executable_path: /usr/bin/python3.8
+      # If running dagster instance and dagster-daemon in containers:
+      # executable_path: /usr/local/bin/python
+
+      # NOTE: If having trouble finding location of your container's
+      # Python interpreter, then do: docker exec -it <containerid_or_name> sh
+      # Then execute: whereis python
