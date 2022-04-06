@@ -1,10 +1,10 @@
 import requests
 
 import pandas as pd
-from dagster import solid
+from dagster import op
 
 
-@solid
+@op
 def fetch_xml() -> str:
     res = requests.get("https://www.nbp.pl/kursy/xml/a064z220401.xml")
     res.encoding = "UTF-8"
@@ -15,19 +15,24 @@ def fetch_xml() -> str:
         print(res.status_code)
 
 
-@solid
+@op
 def xml_to_df(xml_data: str) -> pd.DataFrame:
     return pd.read_xml(xml_data)
 
 
-@solid
+@op
 def clean_df(df: pd.DataFrame) -> pd.DataFrame:
     return df.iloc[2:]
 
 
-@solid
+@op
 def filter_for_dollars(df: pd.DataFrame) -> pd.DataFrame:
     return df[df["nazwa_waluty"].str.contains("dolar")]
+
+
+@op
+def df_to_csv(df: pd.DataFrame) -> None:
+    df.to_csv("dolars.csv")
 
 
 currencies_xml = fetch_xml()
